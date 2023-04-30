@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <canvas
+      id="can"
+      height="748"
+      width="1024"
+      style="border: 1px solid red"
+    ></canvas>
+    <script>
+      window.onload = function () {
+        const canvas = document.querySelector("#can");
+        const ctx = canvas.getContext("2d");
+
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = "#808080";
+        ctx.arc(300, 300, 200, 0, 1.5 * Math.PI);
+        ctx.stroke();
+      };
+    </script>
+  </body>
+</html>
