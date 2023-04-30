@@ -14,18 +14,21 @@ class Clock {
   hour = 12;
   minutes = 34;
   seconds = 56;
+  preSeconds = 0;
 
   timer;
 
   constructor() {
     this.getCanvasEle();
-    this.setWH();
+    this.initCanvas();
     this.timer = requestAnimationFrame(this.rafRender);
   }
 
   rafRender = () => {
     this.getNow();
-    this.render();
+    if (this.seconds !== this.preSeconds) {
+      this.render();
+    }
     this.timer = requestAnimationFrame(this.rafRender);
   };
 
@@ -44,7 +47,7 @@ class Clock {
     this.ctx = this.ele.getContext("2d");
   }
 
-  setWH() {
+  initCanvas() {
     this.ele.height = this.WINDOW_HEIGHT;
     this.ele.width = this.WINDOW_WIDTH;
   }
@@ -69,16 +72,30 @@ class Clock {
       });
     });
   }
-
+  stringNow() {
+    const hours = this.hour < 10 ? "0" + this.hour : this.hour;
+    const minutes = this.minutes < 10 ? "0" + this.minutes : this.minutes;
+    const seconds = this.seconds < 10 ? "0" + this.seconds : this.seconds;
+    return "" + hours + minutes + seconds;
+  }
   render() {
     this.ctx.clearRect(0, 0, this.WINDOW_WIDTH, this.WINDOW_HEIGHT);
     //先从0，0开始渲染hour的十位
-    const time = "" + this.hour + this.minutes + this.seconds;
+    const time = this.stringNow();
+    let positionX = this.PADDING_LEFT;
     time.split("").forEach((char, i) => {
+      if (i !== 0) {
+        positionX += this.BOX_WIDTH * 8;
+      }
       const num = parseInt(char);
-      let x = this.PADDING_LEFT + i * this.BOX_WIDTH * 7;
-      this.renderDigit(x, this.PADDING_TOP, num);
+      if ((i & 1) === 0 && i !== 0) {
+        //冒号
+        this.renderDigit(positionX, this.PADDING_TOP, digit.length - 1);
+        positionX += this.BOX_WIDTH * 4;
+      }
+      this.renderDigit(positionX, this.PADDING_TOP, num);
     });
+    this.preSeconds = this.seconds;
   }
   stop() {
     cancelAnimationFrame(this.timer);
