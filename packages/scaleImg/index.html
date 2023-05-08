@@ -27,7 +27,7 @@
         const ctx = canvas.getContext("2d");
         let scale = slider.value;
         const img = new Image();
-        img.src = "./769717.jpg";
+        img.src = "../img/769717.jpg";
         img.onload = () => {
           drawImageByScale(scale);
           slider.onmousemove = () => {
