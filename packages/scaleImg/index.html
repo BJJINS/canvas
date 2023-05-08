@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body style="background-color: black">
+    <canvas id="canvas"></canvas>
+    <input
+      type="range"
+      min="0.5"
+      max="3.0"
+      step="0.01"
+      value="1.0"
+      id="scale-range"
+      style="display: block; margin: 20px auto; width: 800px"
+    />
+    <script>
+      window.onload = function () {
+        const slider = document.getElementById("scale-range");
+        /**@type {HTMLCanvasElement} */
+        const canvas = document.querySelector("#canvas");
+        canvas.width = 1152;
+        canvas.height = 768;
+        const ctx = canvas.getContext("2d");
+        let scale = slider.value;
+        const img = new Image();
+        img.src = "./769717.jpg";
+        img.onload = () => {
+          drawImageByScale(scale);
+          slider.onmousemove = () => {
+            drawImageByScale(slider.value);
+          };
+        };
+
+        function drawImageByScale(scale) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          let imgWidth = 1152 * scale;
+          let imgHeight = 768 * scale;
+          let dx = canvas.width / 2 - imgWidth / 2;
+          let dy = canvas.height / 2 - imgHeight / 2;
+          ctx.drawImage(img, dx, dy, imgWidth, imgHeight);
+        }
+      };
+    </script>
+  </body>
+</html>
