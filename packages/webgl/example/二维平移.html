@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Document</title>
+</head>
+<body>
+<canvas id="canvas" width="400" height="400"></canvas>
+<div id="uiContainer">
+    <div id="ui">
+        <div id="x"></div>
+        <div id="y"></div>
+    </div>
+</div>
+<script src="utils.js"></script>
+<script src="https://webglfundamentals.org/webgl/resources/webgl-lessons-ui.js"></script>
+<script>
+    const vertexShaderSource = `
+          attribute vec2 a_position;
+          uniform vec2 u_resolution;
+          uniform vec2 u_translation;
+          void main(){
+            vec2 position = a_position + u_translation;
+            vec2 zeroToOne = position / u_resolution;
+            vec2 zeroToTwo = zeroToOne * 2.0;
+            vec2 clipSpace = zeroToTwo - 1.0;
+            gl_Position = vec4(clipSpace * vec2(1,-1), 0, 1);
+          }
+        `;
+    const fragmentShaderSource = `
+       precision mediump float;
+       uniform vec4 u_color;
+        void main(){
+           gl_FragColor = vec4(1, 0, 0.5, 1);
+        }
+      `;
+    const {program, gl} = initProgram(
+        "canvas",
+        vertexShaderSource,
+        fragmentShaderSource
+    );
+
+    const positionAttributeLocation = gl.getAttribLocation(
+        program,
+        "a_position"
+    );
+    const colorUniformLocation = gl.getUniformLocation(program, "u_color");
+    const resolutionUniformLocation = gl.getUniformLocation(
+        program,
+        "u_resolution"
+    );
+    gl.uniform2f(
+        resolutionUniformLocation,
+        gl.canvas.width,
+        gl.canvas.height
+    );
+    const translationLocation = gl.getUniformLocation(
+        program, "u_translation");
+    const positionBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+
+
+    const translation = [0, 0];
+    const width = 100;
+    const height = 30;
+    const color = [Math.random(), Math.random(), Math.random(), 1];
+    setGeometry(gl);
+    drawScene();
+    webglLessonsUI.setupSlider("#x", {slide: updatePosition(0), max: gl.canvas.width});
+    webglLessonsUI.setupSlider("#y", {slide: updatePosition(1), max: gl.canvas.height});
+
+    function updatePosition(index) {
+        return function (event, ui) {
+            translation[index] = ui.value;
+            drawScene();
+        };
+    }
+
+    function drawScene() {
+        gl.enableVertexAttribArray(positionAttributeLocation);
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+        gl.vertexAttribPointer(
+            positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
+        gl.uniform4fv(colorUniformLocation, color);
+        gl.uniform2fv(translationLocation, translation);
+        gl.drawArrays(gl.TRIANGLES, 0, 18);
+    }
+
+    // 在缓冲存储构成 'F' 的值
+    function setGeometry(gl) {
+        gl.bufferData(
+            gl.ARRAY_BUFFER,
+            new Float32Array([
+                // left column
+                0, 0,
+                30, 0,
+                0, 150,
+                0, 150,
+                30, 0,
+                30, 150,
+
+                // top rung
+                30, 0,
+                100, 0,
+                30, 30,
+                30, 30,
+                100, 0,
+                100, 30,
+
+                // middle rung
+                30, 60,
+                67, 60,
+                30, 90,
+                30, 90,
+                67, 60,
+                67, 90,
+            ]),
+            gl.STATIC_DRAW);
+    }
+
+</script>
+</body>
+</html>
