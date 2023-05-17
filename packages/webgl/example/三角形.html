@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Document</title>
+</head>
+<body>
+<canvas id="canvas" width="400" height="400"></canvas>
+<script src="utils.js"></script>
+<script>
+    const vertexShaderSource = `
+          attribute vec4 a_position;
+          uniform vec2 u_resolution;
+          void main(){
+            vec2 zeroToOne = a_position.xy / u_resolution;
+            vec2 zeroToTwo = zeroToOne * 2.0;
+            vec2 clipSpace = zeroToTwo - 1.0;
+            gl_Position = vec4(clipSpace * vec2(1,-1), a_position.z, a_position.w);
+          }
+        `;
+    const fragmentShaderSource = `
+       precision mediump float;
+        void main(){
+           gl_FragColor = vec4(1, 0, 0.5, 1);
+        }
+      `;
+    const {program, gl} = initProgram(
+        "canvas",
+        vertexShaderSource,
+        fragmentShaderSource
+    );
+
+    const positionAttributeLocation = gl.getAttribLocation(
+        program,
+        "a_position"
+    );
+    const resolutionUniformLocation = gl.getUniformLocation(
+        program,
+        "u_resolution"
+    );
+    const positionBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    const positions = [10, 20, 80, 20, 10, 30, 10, 30, 80, 20, 80, 30];
+    gl.bufferData(
+        gl.ARRAY_BUFFER,
+        new Float32Array(positions),
+        gl.STATIC_DRAW
+    );
+
+    clear(gl);
+    gl.enableVertexAttribArray(positionAttributeLocation);
+    const size = 2; // 2 components per iteration
+    gl.vertexAttribPointer(
+        positionAttributeLocation,
+        2,
+        gl.FLOAT,
+        false,
+        0,
+        0
+    );
+    gl.uniform2f(
+        resolutionUniformLocation,
+        gl.canvas.width,
+        gl.canvas.height
+    );
+
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+</script>
+</body>
+</html>
