@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script>
+      window.onload = function () {
+        console.log(1);
+        /**@type {HTMLCanvasElement} */
+        const canvas = document.querySelector("#canvas");
+        console.log("canvas :>> ", canvas);
+        canvas.width = 800;
+        canvas.height = 800;
+        const ctx = canvas.getContext("2d");
+        ctx.beginPath();
+        for (let i = 0; i <= 4; i++) {
+          // 300 大圆半径
+          // 400 圆心在canvas中间
+          ctx.lineTo(
+            Math.cos(((18 + i * 72) / 180) * Math.PI) * 300 + 400,
+            -Math.sin(((18 + i * 72) / 180) * Math.PI) * 300 + 400
+          );
+          ctx.lineTo(
+            Math.cos(((54 + i * 72) / 180) * Math.PI) * 150 + 400,
+            -Math.sin(((54 + i * 72) / 180) * Math.PI) * 150 + 400
+          );
+        }
+
+        ctx.closePath();
+        ctx.lineWidth = 10;
+        ctx.stroke();
+      };
+    </script>
+  </body>
+</html>

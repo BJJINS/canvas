@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body style="background-color: black">
+    <canvas id="canvas"></canvas>
+    <canvas
+      id="water-mark"
+      style="display: block; margin: 0 auto; border: 1px solid red"
+    ></canvas>
+
+    <script>
+      window.onload = function () {
+        /**@type {HTMLCanvasElement} */
+        const canvas = document.querySelector("#canvas");
+        /**@type {HTMLCanvasElement} */
+        const waterMarkCanvas = document.querySelector("#water-mark");
+
+        canvas.width = 1152;
+        canvas.height = 768;
+
+        waterMarkCanvas.width = 600;
+        waterMarkCanvas.height = 100;
+
+        const ctx = canvas.getContext("2d");
+        const waterMarkCtx = waterMarkCanvas.getContext("2d");
+
+        waterMarkCtx.font == "bold 50px Arial";
+        waterMarkCtx.lineWidth = "2";
+        waterMarkCtx.fillStyle = "rgba(255,255,255,0.5)";
+        waterMarkCtx.textBaseline = "middle";
+        waterMarkCtx.fillText("==bjjin==", 20, 50);
+
+        const img = new Image();
+        img.src = "../img/769717.jpg";
+        img.onload = () => {
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          ctx.drawImage(waterMarkCanvas, 0, 0, waterMarkCanvas.width, waterMarkCanvas.height);
+        };
+      };
+    </script>
+  </body>
+</html>
