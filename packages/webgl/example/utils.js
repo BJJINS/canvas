@@ -93,7 +93,7 @@ function createAndSetupTexture(gl) {
     return texture;
 }
 
-var m3 = {
+const m3 = {
     translation: function (tx, ty) {
         /*
         * [
