@@ -3,7 +3,6 @@
 html {
     box-sizing: border-box;
 }
-
 *, *:before, *:after {
     box-sizing: inherit;
     user-select: none;
@@ -31,20 +30,18 @@ canvas {
     font-family: monospace;
     pointer-events: none;
 
-    text-shadow: -1px -1px 0 #FFF,
-    1px -1px 0 #FFF,
-    -1px 1px 0 #FFF,
-    1px 1px 0 #FFF;
+    text-shadow:
+            -1px -1px 0 #FFF,
+            1px -1px 0 #FFF,
+            -1px 1px 0 #FFF,
+            1px 1px 0 #FFF;
 }
-
 #ui {
     opacity: 0.8;
 }
-
-#ui > div {
+#ui>div {
     pointer-events: none;
 }
-
 #ui input,
 #ui label,
 #ui select,
@@ -58,11 +55,9 @@ canvas {
     min-width: 10em;
     text-align: right;
 }
-
 .gman-checkbox-label {
     pointer-events: auto;
 }
-
 .gman-widget-value {
     float: right;
     font-size: medium;
@@ -73,25 +68,21 @@ canvas {
 .gman-slider-upper {
     height: 1.5em;
 }
-
 .gman-slider-outer, .gman-widget-outer {
     float: right;
     display: flex;
     align-items: center;
     height: 1.7em;
 }
-
 .gman-widget-slider, .gman-widget-checkbox, .gman-widget-select {
     opacity: 0.5;
     font-size: large;
     margin-left: .3em;
     margin-right: .3em;
 }
-
 .gman-widget-select {
     font-size: small;
 }
-
 .gman-widget-slider {
     min-width: 120px;
 }
@@ -102,22 +93,19 @@ canvas {
 html.iframe {
     height: 100vh;
 }
-
 body.iframe {
     width: 100vw;
     height: 100vh;
     margin: 0;
 }
 
-.iframe > .description {
+.iframe>.description {
     display: none;
 }
-
 .iframe .divcanvas {
     width: 100vw;
     height: 100vh;
 }
-
 .iframe canvas {
     width: 100vw;
     height: 100vh;
@@ -125,15 +113,13 @@ body.iframe {
     border: none;
 }
 
-.iframe > #example {
+.iframe>#example {
     width: 100%;
     height: 100%;
 }
-
-#ui #rotation > canvas {
+#ui #rotation>canvas {
     background-color: rgba(255, 255, 255, 0.6);
 }
-
 #ui {
     width: 200px;
 }
@@ -143,21 +129,17 @@ body.iframe {
         font-size: xx-small !important;
         max-width: 300px !important;
     }
-
     canvas {
         width: 100vw;
     }
-
     .iframe canvas {
         width: 100vw;
         height: 100vh;
         border: none;
     }
-
     #uiContainer {
         top: 120px;
     }
-
     .iframe #uiContainer {
         top: 10px;
     }
@@ -166,9 +148,10 @@ body.iframe {
 @media (prefers-color-scheme: dark) {
     #ui .ui-dark-support {
         color: white;
-        text-shadow: -1px -1px 0 #000,
-        1px -1px 0 #000,
-        -1px 1px 0 #000,
-        1px 1px 0 #000;
+        text-shadow:
+                -1px -1px 0 #000,
+                1px -1px 0 #000,
+                -1px 1px 0 #000,
+                1px 1px 0 #000;
     }
 }

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Document</title>
+    <link rel="stylesheet" href="./webgl-tutorials.css">
+    <script src="utils.js"></script>
+    <script src="./webgl-lessons-ui.js"></script>
+</head>
+<body>
+<canvas id="canvas" width="400" height="400"></canvas>
+<div id="uiContainer">
+    <div id="ui">
+        <div id="x"></div>
+        <div id="y"></div>
+    </div>
+</div>
+
+<script>
+    const vertexShaderSource = `
+          attribute vec2 a_position;
+          uniform vec2 u_resolution;
+           uniform vec2 u_translation;
+          void main(){
+            vec2 zeroToOne = a_position / u_resolution;
+            vec2 zeroToTwo = zeroToOne * 2.0;
+            vec2 clipSpace = zeroToTwo - 1.0;
+            gl_Position = vec4(clipSpace * vec2(1,-1), 0, 1);
+          }
+        `;
+    const fragmentShaderSource = `
+       precision mediump float;
+       uniform vec4 u_color;
+        void main(){
+           gl_FragColor = vec4(1, 0, 0.5, 1);
+        }
+      `;
+    const {program, gl} = initProgram(
+        "canvas",
+        vertexShaderSource,
+        fragmentShaderSource
+    );
+
+
+</script>
+</body>
+</html>
