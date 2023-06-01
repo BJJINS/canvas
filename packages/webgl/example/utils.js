@@ -42,7 +42,11 @@ function initProgram(canvasId, vertexShaderSource, fragmentShaderSour) {
   const dom = document.getElementById(canvasId);
   const gl = dom.getContext("webgl");
   const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
-  const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSour);
+  const fragmentShader = createShader(
+    gl,
+    gl.FRAGMENT_SHADER,
+    fragmentShaderSour
+  );
   const program = createProgram(gl, vertexShader, fragmentShader);
   gl.useProgram(program);
   resizeCanvasToDisplaySize(dom);
@@ -64,7 +68,11 @@ function setRectangle(gl, x, y, w, h) {
   const x2 = x + w;
   const y1 = y;
   const y2 = y + h;
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([x1, y1, x2, y1, x1, y2, x1, y2, x2, y1, x2, y2]), gl.STATIC_DRAW);
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    new Float32Array([x1, y1, x2, y1, x1, y2, x1, y2, x2, y1, x2, y2]),
+    gl.STATIC_DRAW
+  );
 }
 
 /**
@@ -83,20 +91,29 @@ function createAndSetupTexture(gl) {
 
 const m3 = {
   translation: function (tx, ty) {
-    return [1, 0, 0, 0, 1, 0, tx, ty, 1];
+    return [
+      1, 0, 0, 
+      0, 1, 0, 
+      tx, ty, 1
+    ];
   },
 
   rotation: function (angleInRadians) {
     const c = Math.cos(angleInRadians);
     const s = Math.sin(angleInRadians);
     return [
-      c, s, 0, 
+      c, s, 0,
       -s, c, 0, 
-      0, 0, 1];
+      0, 0, 1
+      ];
   },
 
   scaling: function (sx, sy) {
-    return [sx, 0, 0, 0, sy, 0, 0, 0, 1];
+    return [
+      sx, 0, 0, 
+      0, sy, 0, 
+      0, 0, 1
+    ];
   },
 
   multiply: function (a, b) {
@@ -128,6 +145,13 @@ const m3 = {
       b20 * a00 + b21 * a10 + b22 * a20,
       b20 * a01 + b21 * a11 + b22 * a21,
       b20 * a02 + b21 * a12 + b22 * a22,
+    ];
+  },
+  identity: function () {
+    return [
+      1,0,0,
+      0,1,0,
+      0,0,1
     ];
   },
 };
