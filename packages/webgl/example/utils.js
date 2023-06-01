@@ -91,29 +91,17 @@ function createAndSetupTexture(gl) {
 
 const m3 = {
   translation: function (tx, ty) {
-    return [
-      1, 0, 0, 
-      0, 1, 0, 
-      tx, ty, 1
-    ];
+    return [1, 0, 0, 0, 1, 0, tx, ty, 1];
   },
 
   rotation: function (angleInRadians) {
     const c = Math.cos(angleInRadians);
     const s = Math.sin(angleInRadians);
-    return [
-      c, s, 0,
-      -s, c, 0, 
-      0, 0, 1
-      ];
+    return [c, s, 0, -s, c, 0, 0, 0, 1];
   },
 
   scaling: function (sx, sy) {
-    return [
-      sx, 0, 0, 
-      0, sy, 0, 
-      0, 0, 1
-    ];
+    return [sx, 0, 0, 0, sy, 0, 0, 0, 1];
   },
 
   multiply: function (a, b) {
@@ -148,11 +136,24 @@ const m3 = {
     ];
   },
   identity: function () {
+    return [1, 0, 0, 0, 1, 0, 0, 0, 1];
+  },
+  translate: function (m, tx, ty) {
+    return m3.multiply(m, m3.translation(tx, ty));
+  },
+
+  rotate: function (m, angleInRadians) {
+    return m3.multiply(m, m3.rotation(angleInRadians));
+  },
+
+  scale: function (m, sx, sy) {
+    return m3.multiply(m, m3.scaling(sx, sy));
+  },
+  projection: function (width, height) {
     return [
-      1,0,0,
-      0,1,0,
-      0,0,1
-    ];
+      2 / width, 0, 0, 
+      0, -2 / height, 0, 
+      -1, 1,0];
   },
 };
 /**
